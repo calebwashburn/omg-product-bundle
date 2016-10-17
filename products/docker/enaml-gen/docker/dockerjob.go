@@ -5,7 +5,7 @@ package docker
 */
 type DockerJob struct {
 
-	/*Docker - Descr: Array of log driver options Default: <nil>
+	/*Docker - Descr: Use userland proxy for loopback traffic Default: true
 */
 	Docker *Docker `yaml:"docker,omitempty"`
 

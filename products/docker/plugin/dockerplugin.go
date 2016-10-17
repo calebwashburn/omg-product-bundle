@@ -10,6 +10,7 @@ import (
 	"github.com/enaml-ops/enaml"
 	"github.com/enaml-ops/omg-product-bundle/products/docker/enaml-gen/containers"
 	"github.com/enaml-ops/omg-product-bundle/products/docker/enaml-gen/docker"
+	"github.com/enaml-ops/omg-product-bundle/products/docker/enaml-gen/docker-volume-netshare"
 	"github.com/enaml-ops/pluginlib/pcli"
 	"github.com/enaml-ops/pluginlib/pluginutil"
 	"github.com/enaml-ops/pluginlib/product"
@@ -17,9 +18,9 @@ import (
 )
 
 const (
-	BoshDockerReleaseURL = "https://bosh.io/d/github.com/cf-platform-eng/docker-boshrelease?v=28.0.1"
-	BoshDockerReleaseVer = "28.0.1"
-	BoshDockerReleaseSHA = "448eaa2f478dc8794933781b478fae02aa44ed6b"
+	BoshDockerReleaseURL = "https://github.com/calebwashburn/docker-boshrelease/releases/tag/v28.0.1-dev-14"
+	BoshDockerReleaseVer = "28.0.1-dev-14"
+	BoshDockerReleaseSHA = "debaf48c7e7b8fbb4ac385f5c41fc26dcbdd8018"
 )
 
 type jobBucket struct {
@@ -42,6 +43,9 @@ type Plugin struct {
 	StemcellSHA        string
 	RegistryMirrors    []string
 	InsecureRegistries []string
+	EnableNFS          bool
+	NFSVersion         int
+	NFSOptions         string
 }
 
 func (s *Plugin) GetFlags() (flags []pcli.Flag) {
@@ -63,6 +67,10 @@ func (s *Plugin) GetFlags() (flags []pcli.Flag) {
 		pcli.Flag{FlagType: pcli.StringFlag, Name: "docker-release-url", Value: BoshDockerReleaseURL, Usage: "the url of the docker release you wish to use"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: "docker-release-ver", Value: BoshDockerReleaseVer, Usage: "the version number of the docker release you wish to use"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: "docker-release-sha", Value: BoshDockerReleaseSHA, Usage: "the sha of the docker release you will use"},
+
+		pcli.Flag{FlagType: pcli.BoolFlag, Name: "use-nfs-volume", Usage: "enable nfs volume driver"},
+		pcli.Flag{FlagType: pcli.IntFlag, Name: "nfs-version", Value: "3", Usage: "nfs version"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: "nfs-options", Value: "port=2049,nolock", Usage: "options for nfs mount"},
 	}
 }
 
@@ -104,6 +112,9 @@ func (s *Plugin) GetProduct(args []string, cloudConfig []byte) (b []byte, err er
 	s.StemcellURL = c.String("stemcell-url")
 	s.VMTypeName = c.String("vm-type")
 	s.DiskTypeName = c.String("disk-type")
+	s.EnableNFS = c.Bool("use-nfs-volume")
+	s.NFSVersion = c.Int("nfs-version")
+	s.NFSOptions = c.String("nfs-options")
 
 	if err = s.flagValidation(); err != nil {
 		lo.G.Error("invalid arguments: ", err)
@@ -150,9 +161,24 @@ func (s *Plugin) NewDockerInstanceGroup() (ig *enaml.InstanceGroup) {
 			MaxInFlight: 1,
 		},
 	}
+
+	if s.EnableNFS {
+		ig.Jobs = append(ig.Jobs, s.createNFSVolumeShareJob())
+	}
 	return
 }
-
+func (s *Plugin) createNFSVolumeShareJob() enaml.InstanceJob {
+	return enaml.InstanceJob{
+		Name:    "docker-volume-netshare",
+		Release: "docker",
+		Properties: &docker_volume_netshare.DockerVolumeNetshareJob{
+			Nfs: &docker_volume_netshare.Nfs{
+				Version: s.NFSVersion,
+				Options: s.NFSOptions,
+			},
+		},
+	}
+}
 func (s *Plugin) createDockerJob() enaml.InstanceJob {
 	return enaml.InstanceJob{
 		Name:    "docker",

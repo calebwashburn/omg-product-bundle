@@ -5,12 +5,12 @@ package broker_deregistrar
 */
 type BrokerDeregistrarJob struct {
 
+	/*Broker - Descr: Basic Auth username for the service broker Default: <nil>
+*/
+	Broker *Broker `yaml:"broker,omitempty"`
+
 	/*Cf - Descr: Password of the admin user Default: <nil>
 */
 	Cf *Cf `yaml:"cf,omitempty"`
-
-	/*Broker - Descr: Basic Auth password for the service broker Default: <nil>
-*/
-	Broker *Broker `yaml:"broker,omitempty"`
 
 }

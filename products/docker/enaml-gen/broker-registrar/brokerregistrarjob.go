@@ -5,11 +5,11 @@ package broker_registrar
 */
 type BrokerRegistrarJob struct {
 
-	/*Cf - Descr: Password of the admin user Default: <nil>
+	/*Cf - Descr: Username of the admin user Default: <nil>
 */
 	Cf *Cf `yaml:"cf,omitempty"`
 
-	/*Broker - Descr: Basic Auth password for the service broker Default: <nil>
+	/*Broker - Descr: Name of the service broker Default: <nil>
 */
 	Broker *Broker `yaml:"broker,omitempty"`
 

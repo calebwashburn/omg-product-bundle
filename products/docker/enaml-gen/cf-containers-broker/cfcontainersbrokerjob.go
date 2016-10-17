@@ -5,20 +5,20 @@ package cf_containers_broker
 */
 type CfContainersBrokerJob struct {
 
-	/*Broker - Descr: Determines whether dashboard verifies SSL certificates when communicating with Cloud Controller and UAA Default: true
+	/*Broker - Descr: Unicorn listen port Default: 80
 */
 	Broker *Broker `yaml:"broker,omitempty"`
+
+	/*Cf - Descr: URL of the CloudFoundry Cloud Controller Default: <nil>
+*/
+	Cf *Cf `yaml:"cf,omitempty"`
 
 	/*Nats - Descr: Username for broker to connect to NATS Default: <nil>
 */
 	Nats *Nats `yaml:"nats,omitempty"`
 
-	/*Env - Descr: List of comma-separated hosts to skip connecting to the proxy Default: <nil>
+	/*Env - Descr: HTTPS proxy Default: <nil>
 */
 	Env *Env `yaml:"env,omitempty"`
-
-	/*Cf - Descr: URL of the CloudFoundry Cloud Controller Default: <nil>
-*/
-	Cf *Cf `yaml:"cf,omitempty"`
 
 }

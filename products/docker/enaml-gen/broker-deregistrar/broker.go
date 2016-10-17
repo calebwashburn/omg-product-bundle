@@ -5,17 +5,9 @@ package broker_deregistrar
 */
 type Broker struct {
 
-	/*Port - Descr: Port for the service broker Default: 443
-*/
-	Port interface{} `yaml:"port,omitempty"`
-
 	/*Username - Descr: Basic Auth username for the service broker Default: <nil>
 */
 	Username interface{} `yaml:"username,omitempty"`
-
-	/*Password - Descr: Basic Auth password for the service broker Default: <nil>
-*/
-	Password interface{} `yaml:"password,omitempty"`
 
 	/*Name - Descr: Name of the service broker Default: <nil>
 */
@@ -28,5 +20,13 @@ type Broker struct {
 	/*Host - Descr: Host address of the service broker Default: <nil>
 */
 	Host interface{} `yaml:"host,omitempty"`
+
+	/*Port - Descr: Port for the service broker Default: 443
+*/
+	Port interface{} `yaml:"port,omitempty"`
+
+	/*Password - Descr: Basic Auth password for the service broker Default: <nil>
+*/
+	Password interface{} `yaml:"password,omitempty"`
 
 }

@@ -5,14 +5,6 @@ package swarm_agent
 */
 type SwarmAgent struct {
 
-	/*Advertise - Descr: Address of the Docker Engine joining the cluster. Swarm manager(s) MUST be able to reach the Docker Engine at this address. Default: <nil>
-*/
-	Advertise interface{} `yaml:"advertise,omitempty"`
-
-	/*Ttl - Descr: Sets the expiration of an ephemeral node Default: 60s
-*/
-	Ttl interface{} `yaml:"ttl,omitempty"`
-
 	/*Heartbeat - Descr: Time in second between each heartbeat Default: 20s
 */
 	Heartbeat interface{} `yaml:"heartbeat,omitempty"`
@@ -24,5 +16,13 @@ type SwarmAgent struct {
 	/*LogLevel - Descr: Log level (options: debug, info, warn, error, fatal, panic) Default: info
 */
 	LogLevel interface{} `yaml:"log_level,omitempty"`
+
+	/*Advertise - Descr: Address of the Docker Engine joining the cluster. Swarm manager(s) MUST be able to reach the Docker Engine at this address. Default: <nil>
+*/
+	Advertise interface{} `yaml:"advertise,omitempty"`
+
+	/*Ttl - Descr: Sets the expiration of an ephemeral node Default: 60s
+*/
+	Ttl interface{} `yaml:"ttl,omitempty"`
 
 }

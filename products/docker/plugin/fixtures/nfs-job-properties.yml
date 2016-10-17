@@ -1,0 +1,6 @@
+name: docker-volume-netshare
+release: docker
+properties:
+  nfs:
+    options: port=2049,nolock
+    version: 3

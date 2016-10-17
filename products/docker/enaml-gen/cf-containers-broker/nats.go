@@ -5,20 +5,20 @@ package cf_containers_broker
 */
 type Nats struct {
 
-	/*Machines - Descr: Array of IPs of each NATS cluster member Default: <nil>
-*/
-	Machines interface{} `yaml:"machines,omitempty"`
-
 	/*User - Descr: Username for broker to connect to NATS Default: <nil>
 */
 	User interface{} `yaml:"user,omitempty"`
 
-	/*Port - Descr: IP port of Cloud Foundry NATS server Default: 4222
+	/*Machines - Descr: Array of IPs of each NATS cluster member Default: <nil>
 */
-	Port interface{} `yaml:"port,omitempty"`
+	Machines interface{} `yaml:"machines,omitempty"`
 
 	/*Password - Descr: Password for broker to connect to NATS Default: <nil>
 */
 	Password interface{} `yaml:"password,omitempty"`
+
+	/*Port - Descr: IP port of Cloud Foundry NATS server Default: 4222
+*/
+	Port interface{} `yaml:"port,omitempty"`
 
 }

@@ -5,20 +5,20 @@ package swarm_manager
 */
 type SwarmManagerJob struct {
 
+	/*SwarmManager - Descr: Enable debug mode Default: false
+*/
+	SwarmManager *SwarmManager `yaml:"swarm_manager,omitempty"`
+
+	/*Docker - Descr: Trust only remotes providing a certificate signed by the CA given here Default: <nil>
+*/
+	Docker *Docker `yaml:"docker,omitempty"`
+
 	/*Env - Descr: HTTPS proxy that Docker should use Default: <nil>
 */
 	Env *Env `yaml:"env,omitempty"`
 
-	/*SwarmManager - Descr: Log level (options: debug, info, warn, error, fatal, panic) Default: info
-*/
-	SwarmManager *SwarmManager `yaml:"swarm_manager,omitempty"`
-
 	/*Swarm - Descr: Swarm discovery options Default: []
 */
 	Swarm *Swarm `yaml:"swarm,omitempty"`
-
-	/*Docker - Descr: TLS certificate file Default: <nil>
-*/
-	Docker *Docker `yaml:"docker,omitempty"`
 
 }

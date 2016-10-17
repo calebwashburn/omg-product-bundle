@@ -9,49 +9,137 @@ type Docker struct {
 */
 	Labels interface{} `yaml:"labels,omitempty"`
 
-	/*DefaultUlimits - Descr: Array of default ulimits for containers Default: <nil>
+	/*Iptables - Descr: Enable Docker's addition of iptables rules Default: true
 */
-	DefaultUlimits interface{} `yaml:"default_ulimits,omitempty"`
-
-	/*TlsCert - Descr: TLS certificate file Default: <nil>
-*/
-	TlsCert interface{} `yaml:"tls_cert,omitempty"`
-
-	/*DnsServers - Descr: Array of DNS servers to be used Default: <nil>
-*/
-	DnsServers interface{} `yaml:"dns_servers,omitempty"`
-
-	/*DnsSearch - Descr: Array of DNS search domains to be used Default: <nil>
-*/
-	DnsSearch interface{} `yaml:"dns_search,omitempty"`
-
-	/*InsecureRegistries - Descr: Array of insecure registries (no certificate verification for HTTPS and enable HTTP fallback) Default: <nil>
-*/
-	InsecureRegistries interface{} `yaml:"insecure_registries,omitempty"`
-
-	/*ExecOptions - Descr: Array of exec driver options Default: <nil>
-*/
-	ExecOptions interface{} `yaml:"exec_options,omitempty"`
-
-	/*LogOptions - Descr: Array of log driver options Default: <nil>
-*/
-	LogOptions interface{} `yaml:"log_options,omitempty"`
+	Iptables interface{} `yaml:"iptables,omitempty"`
 
 	/*Ulimit - Descr: Maximum number of open files Default: 8192
 */
 	Ulimit *Ulimit `yaml:"ulimit,omitempty"`
 
-	/*Bridge - Descr: Name of the network bridge to attach containers (defaults to docker0) Default: <nil>
+	/*DnsOptions - Descr: Array of DNS options to be used Default: <nil>
 */
-	Bridge interface{} `yaml:"bridge,omitempty"`
+	DnsOptions interface{} `yaml:"dns_options,omitempty"`
+
+	/*DisableLegacyRegistry - Descr: Do not contact legacy registries Default: false
+*/
+	DisableLegacyRegistry interface{} `yaml:"disable_legacy_registry,omitempty"`
+
+	/*DefaultUlimits - Descr: Array of default ulimits for containers Default: <nil>
+*/
+	DefaultUlimits interface{} `yaml:"default_ulimits,omitempty"`
+
+	/*InsecureRegistries - Descr: Array of insecure registries (no certificate verification for HTTPS and enable HTTP fallback) Default: <nil>
+*/
+	InsecureRegistries interface{} `yaml:"insecure_registries,omitempty"`
+
+	/*Icc - Descr: Allow unrestricted inter-container and Docker daemon host communication Default: true
+*/
+	Icc interface{} `yaml:"icc,omitempty"`
+
+	/*RegistryMirrors - Descr: Array of preferred Docker registry mirrors Default: <nil>
+*/
+	RegistryMirrors interface{} `yaml:"registry_mirrors,omitempty"`
+
+	/*LogOptions - Descr: Array of log driver options Default: <nil>
+*/
+	LogOptions interface{} `yaml:"log_options,omitempty"`
+
+	/*SelinuxEnable - Descr: Enable selinux support Default: false
+*/
+	SelinuxEnable interface{} `yaml:"selinux_enable,omitempty"`
+
+	/*Mtu - Descr: Set the containers network MTU (if no value is provided: default to the default route MTU or 1500 if no default route is available) Default: <nil>
+*/
+	Mtu interface{} `yaml:"mtu,omitempty"`
+
+	/*ExecOptions - Descr: Array of exec driver options Default: <nil>
+*/
+	ExecOptions interface{} `yaml:"exec_options,omitempty"`
 
 	/*CidrPrefix - Descr: CIDR notation prefix (first 2 octets) for the network bridges IP Default: <nil>
 */
 	CidrPrefix interface{} `yaml:"cidr_prefix,omitempty"`
 
+	/*IpMasq - Descr: Enable IP masquerading Default: true
+*/
+	IpMasq interface{} `yaml:"ip_masq,omitempty"`
+
+	/*DnsSearch - Descr: Array of DNS search domains to be used Default: <nil>
+*/
+	DnsSearch interface{} `yaml:"dns_search,omitempty"`
+
+	/*UserlandProxy - Descr: Use userland proxy for loopback traffic Default: true
+*/
+	UserlandProxy interface{} `yaml:"userland_proxy,omitempty"`
+
 	/*DefaultGatewayV6 - Descr: Container default gateway IPv6 address Default: <nil>
 */
 	DefaultGatewayV6 interface{} `yaml:"default_gateway_v6,omitempty"`
+
+	/*Ipv6 - Descr: Enable IPv6 networking Default: false
+*/
+	Ipv6 interface{} `yaml:"ipv6,omitempty"`
+
+	/*StorageDriver - Descr: Use a specific storage driver Default: <nil>
+*/
+	StorageDriver interface{} `yaml:"storage_driver,omitempty"`
+
+	/*Tls - Descr: Use TLS Default: false
+*/
+	Tls interface{} `yaml:"tls,omitempty"`
+
+	/*Bridge - Descr: Name of the network bridge to attach containers (defaults to docker0) Default: <nil>
+*/
+	Bridge interface{} `yaml:"bridge,omitempty"`
+
+	/*TlsKey - Descr: TLS key file Default: <nil>
+*/
+	TlsKey interface{} `yaml:"tls_key,omitempty"`
+
+	/*LogLevel - Descr: Set the logging level (debug, info, warn, error, fatal) Default: info
+*/
+	LogLevel interface{} `yaml:"log_level,omitempty"`
+
+	/*TlsCacert - Descr: Trust only remotes providing a certificate signed by the CA given here Default: <nil>
+*/
+	TlsCacert interface{} `yaml:"tls_cacert,omitempty"`
+
+	/*Ip - Descr: Default IP when binding container ports Default: <nil>
+*/
+	Ip interface{} `yaml:"ip,omitempty"`
+
+	/*TlsVerify - Descr: Use TLS and verify the remote Default: false
+*/
+	TlsVerify interface{} `yaml:"tls_verify,omitempty"`
+
+	/*DnsServers - Descr: Array of DNS servers to be used Default: <nil>
+*/
+	DnsServers interface{} `yaml:"dns_servers,omitempty"`
+
+	/*Flannel - Descr: Enable flannel support Default: false
+*/
+	Flannel interface{} `yaml:"flannel,omitempty"`
+
+	/*Debug - Descr: Enable debug mode Default: false
+*/
+	Debug interface{} `yaml:"debug,omitempty"`
+
+	/*DefaultGateway - Descr: Container default gateway IPv4 address Default: <nil>
+*/
+	DefaultGateway interface{} `yaml:"default_gateway,omitempty"`
+
+	/*LogDriver - Descr: Default driver for container logs Default: <nil>
+*/
+	LogDriver interface{} `yaml:"log_driver,omitempty"`
+
+	/*TlsCert - Descr: TLS certificate file Default: <nil>
+*/
+	TlsCert interface{} `yaml:"tls_cert,omitempty"`
+
+	/*IpForward - Descr: Enable net.ipv4.ip_forward and IPv6 forwarding Default: true
+*/
+	IpForward interface{} `yaml:"ip_forward,omitempty"`
 
 	/*TcpAddress - Descr: TCP address where Docker daemon will listen to (if not set, TCP will not be available) Default: 127.0.0.1
 */
@@ -61,96 +149,8 @@ type Docker struct {
 */
 	TcpPort interface{} `yaml:"tcp_port,omitempty"`
 
-	/*Ipv6 - Descr: Enable IPv6 networking Default: false
-*/
-	Ipv6 interface{} `yaml:"ipv6,omitempty"`
-
-	/*Debug - Descr: Enable debug mode Default: false
-*/
-	Debug interface{} `yaml:"debug,omitempty"`
-
-	/*Iptables - Descr: Enable Docker's addition of iptables rules Default: true
-*/
-	Iptables interface{} `yaml:"iptables,omitempty"`
-
-	/*Mtu - Descr: Set the containers network MTU (if no value is provided: default to the default route MTU or 1500 if no default route is available) Default: <nil>
-*/
-	Mtu interface{} `yaml:"mtu,omitempty"`
-
-	/*TlsVerify - Descr: Use TLS and verify the remote Default: false
-*/
-	TlsVerify interface{} `yaml:"tls_verify,omitempty"`
-
 	/*StorageOptions - Descr: Array of storage driver options Default: <nil>
 */
 	StorageOptions interface{} `yaml:"storage_options,omitempty"`
-
-	/*TlsKey - Descr: TLS key file Default: <nil>
-*/
-	TlsKey interface{} `yaml:"tls_key,omitempty"`
-
-	/*DnsOptions - Descr: Array of DNS options to be used Default: <nil>
-*/
-	DnsOptions interface{} `yaml:"dns_options,omitempty"`
-
-	/*Tls - Descr: Use TLS Default: false
-*/
-	Tls interface{} `yaml:"tls,omitempty"`
-
-	/*TlsCacert - Descr: Trust only remotes providing a certificate signed by the CA given here Default: <nil>
-*/
-	TlsCacert interface{} `yaml:"tls_cacert,omitempty"`
-
-	/*IpForward - Descr: Enable net.ipv4.ip_forward and IPv6 forwarding Default: true
-*/
-	IpForward interface{} `yaml:"ip_forward,omitempty"`
-
-	/*StorageDriver - Descr: Use a specific storage driver Default: <nil>
-*/
-	StorageDriver interface{} `yaml:"storage_driver,omitempty"`
-
-	/*RegistryMirrors - Descr: Array of preferred Docker registry mirrors Default: <nil>
-*/
-	RegistryMirrors interface{} `yaml:"registry_mirrors,omitempty"`
-
-	/*Flannel - Descr: Enable flannel support Default: false
-*/
-	Flannel interface{} `yaml:"flannel,omitempty"`
-
-	/*Ip - Descr: Default IP when binding container ports Default: <nil>
-*/
-	Ip interface{} `yaml:"ip,omitempty"`
-
-	/*DefaultGateway - Descr: Container default gateway IPv4 address Default: <nil>
-*/
-	DefaultGateway interface{} `yaml:"default_gateway,omitempty"`
-
-	/*IpMasq - Descr: Enable IP masquerading Default: true
-*/
-	IpMasq interface{} `yaml:"ip_masq,omitempty"`
-
-	/*DisableLegacyRegistry - Descr: Do not contact legacy registries Default: false
-*/
-	DisableLegacyRegistry interface{} `yaml:"disable_legacy_registry,omitempty"`
-
-	/*Icc - Descr: Allow unrestricted inter-container and Docker daemon host communication Default: true
-*/
-	Icc interface{} `yaml:"icc,omitempty"`
-
-	/*LogLevel - Descr: Set the logging level (debug, info, warn, error, fatal) Default: info
-*/
-	LogLevel interface{} `yaml:"log_level,omitempty"`
-
-	/*LogDriver - Descr: Default driver for container logs Default: <nil>
-*/
-	LogDriver interface{} `yaml:"log_driver,omitempty"`
-
-	/*UserlandProxy - Descr: Use userland proxy for loopback traffic Default: true
-*/
-	UserlandProxy interface{} `yaml:"userland_proxy,omitempty"`
-
-	/*SelinuxEnable - Descr: Enable selinux support Default: false
-*/
-	SelinuxEnable interface{} `yaml:"selinux_enable,omitempty"`
 
 }

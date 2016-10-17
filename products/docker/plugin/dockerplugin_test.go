@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 
+	"gopkg.in/urfave/cli.v2"
+	"gopkg.in/yaml.v2"
+
 	"github.com/enaml-ops/enaml"
 	"github.com/enaml-ops/omg-product-bundle/products/docker/enaml-gen/docker"
 	. "github.com/enaml-ops/omg-product-bundle/products/docker/plugin"
@@ -12,7 +15,6 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/xchapter7x/lo"
 	"github.com/xchapter7x/lo/lofakes"
-	"gopkg.in/urfave/cli.v2"
 )
 
 var _ = Describe("given docker Plugin", func() {
@@ -310,6 +312,44 @@ var _ = Describe("given docker Plugin", func() {
 			Ω(len(deployment.Stemcells)).Should(Equal(1))
 			Ω(deployment.Stemcells[0].OS).Should(Equal("blahname"))
 			Ω(deployment.Stemcells[0].Alias).Should(Equal("blahname"))
+		})
+	})
+
+	Context("when calling GetProduct w/ NFS enabled ", func() {
+		var deployment *enaml.DeploymentManifest
+		var controlNetName = "private"
+		var controlDisk = "medium"
+		var controlVM = "medium"
+		var controlIP = "1.2.3.4"
+
+		BeforeEach(func() {
+			cloudConfigBytes, _ := ioutil.ReadFile("./fixtures/sample-aws.yml")
+			dmBytes, err := plgn.GetProduct([]string{
+				"appname",
+				"--network", controlNetName,
+				"--vm-type", controlVM,
+				"--disk-type", controlDisk,
+				"--ip", controlIP,
+				"--az", "z1",
+				"--stemcell-name", "blahname",
+				"--stemcell-url", "something",
+				"--stemcell-ver", "12.3.44",
+				"--stemcell-sha", "ilkjag09dhsg90ahsd09gsadg9",
+				"--container-definition", "./fixtures/sample-docker.yml",
+				"--use-nfs-volume",
+			}, cloudConfigBytes)
+			Ω(err).ShouldNot(HaveOccurred())
+			deployment = enaml.NewDeploymentManifest(dmBytes)
+		})
+		It("then is should add docker-volume-netshare job", func() {
+			Ω(len(deployment.InstanceGroups[0].Jobs)).Should(Equal(3))
+			job := deployment.InstanceGroups[0].GetJobByName("docker-volume-netshare")
+			Ω(job).ShouldNot(BeNil())
+			jobYaml, err := yaml.Marshal(job)
+			Ω(err).ShouldNot(HaveOccurred())
+			fixtureBytes, err := ioutil.ReadFile("./fixtures/nfs-job-properties.yml")
+			Ω(err).ShouldNot(HaveOccurred())
+			Ω(jobYaml).Should(MatchYAML(string(fixtureBytes)))
 		})
 	})
 

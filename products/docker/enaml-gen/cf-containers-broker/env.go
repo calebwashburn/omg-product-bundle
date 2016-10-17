@@ -5,13 +5,13 @@ package cf_containers_broker
 */
 type Env struct {
 
-	/*HttpProxy - Descr: HTTP proxy Default: <nil>
-*/
-	HttpProxy interface{} `yaml:"http_proxy,omitempty"`
-
 	/*HttpsProxy - Descr: HTTPS proxy Default: <nil>
 */
 	HttpsProxy interface{} `yaml:"https_proxy,omitempty"`
+
+	/*HttpProxy - Descr: HTTP proxy Default: <nil>
+*/
+	HttpProxy interface{} `yaml:"http_proxy,omitempty"`
 
 	/*NoProxy - Descr: List of comma-separated hosts to skip connecting to the proxy Default: <nil>
 */

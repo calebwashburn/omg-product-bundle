@@ -5,25 +5,9 @@ package swarm_manager
 */
 type SwarmManager struct {
 
-	/*ApiEnableCors - Descr: Enable CORS headers in the remote API Default: false
+	/*Filters - Descr: Filters to use [health, port, dependency, affinity, constraint] Default: [health port dependency affinity constraint]
 */
-	ApiEnableCors interface{} `yaml:"api_enable_cors,omitempty"`
-
-	/*ListenAddress - Descr: Listen address Default: 0.0.0.0
-*/
-	ListenAddress interface{} `yaml:"listen_address,omitempty"`
-
-	/*LogLevel - Descr: Log level (options: debug, info, warn, error, fatal, panic) Default: info
-*/
-	LogLevel interface{} `yaml:"log_level,omitempty"`
-
-	/*ReplicationTtl - Descr: Leader lock release time on failure Default: 30s
-*/
-	ReplicationTtl interface{} `yaml:"replication_ttl,omitempty"`
-
-	/*Replication - Descr: Enable Swarm manager replication Default: false
-*/
-	Replication interface{} `yaml:"replication,omitempty"`
+	Filters interface{} `yaml:"filters,omitempty"`
 
 	/*Heartbeat - Descr: Time in second between each heartbeat Default: 20s
 */
@@ -33,24 +17,40 @@ type SwarmManager struct {
 */
 	Port interface{} `yaml:"port,omitempty"`
 
-	/*Overcommit - Descr: Overcommit to apply on resources Default: 0.5
+	/*Replication - Descr: Enable Swarm manager replication Default: false
 */
-	Overcommit interface{} `yaml:"overcommit,omitempty"`
+	Replication interface{} `yaml:"replication,omitempty"`
+
+	/*ReplicationTtl - Descr: Leader lock release time on failure Default: 30s
+*/
+	ReplicationTtl interface{} `yaml:"replication_ttl,omitempty"`
 
 	/*Advertise - Descr: Address of the Swarm Manager joining the cluster. Other Swarm Manager(s) MUST be able to reach the Swarm Manager at this address. Default: <nil>
 */
 	Advertise interface{} `yaml:"advertise,omitempty"`
 
-	/*Filters - Descr: Filters to use [health, port, dependency, affinity, constraint] Default: [health port dependency affinity constraint]
+	/*Overcommit - Descr: Overcommit to apply on resources Default: 0.5
 */
-	Filters interface{} `yaml:"filters,omitempty"`
+	Overcommit interface{} `yaml:"overcommit,omitempty"`
 
-	/*Strategy - Descr: Placement strategy to use [spread, binpack, random] Default: spread
+	/*ApiEnableCors - Descr: Enable CORS headers in the remote API Default: false
 */
-	Strategy interface{} `yaml:"strategy,omitempty"`
+	ApiEnableCors interface{} `yaml:"api_enable_cors,omitempty"`
+
+	/*LogLevel - Descr: Log level (options: debug, info, warn, error, fatal, panic) Default: info
+*/
+	LogLevel interface{} `yaml:"log_level,omitempty"`
 
 	/*Debug - Descr: Enable debug mode Default: false
 */
 	Debug interface{} `yaml:"debug,omitempty"`
+
+	/*ListenAddress - Descr: Listen address Default: 0.0.0.0
+*/
+	ListenAddress interface{} `yaml:"listen_address,omitempty"`
+
+	/*Strategy - Descr: Placement strategy to use [spread, binpack, random] Default: spread
+*/
+	Strategy interface{} `yaml:"strategy,omitempty"`
 
 }
