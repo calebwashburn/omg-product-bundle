@@ -1,5 +1,5 @@
-hash: e613fc3561b09b61f5ab22a32b53dfb9d63b45f250e91f7aeded763f1b2007c0
-updated: 2016-09-26T11:21:08.972663449-06:00
+hash: 3e0cbc6de65465edda50e7b5423aaeb775a0f24e5dc9b83a6c56fff54fe45ab5
+updated: 2016-10-24T15:39:03.215240763-04:00
 imports:
 - name: github.com/cloudfoundry/bosh-init
   version: afa267bec2ba83d7572075ca34ac4c000a29023d
@@ -16,31 +16,26 @@ imports:
   - cloudproperties/aws
   - cloudproperties/azure
   - enamlbosh
-- name: github.com/enaml-ops/omg-cli
-  version: 437173c84d1b9372744f1f7f7ab65fbdf1e57831
-  subpackages:
-  - bosh
-  - utils
 - name: github.com/enaml-ops/pluginlib
-  version: 71083d2749838a653c1666f6dd137483faad80a4
+  version: 824082430c3139d2434bb386ab1c252aff278d6c
   subpackages:
-  - cloudconfig
   - pcli
   - pluginutil
   - product
-  - registry
 - name: github.com/golang/protobuf
-  version: 1f49d83d9aa00e6ce4fc8258c71cc7786aec968a
+  version: 98fa357170587e470c5f27d3c3ea0947b71eb455
   subpackages:
   - proto
 - name: github.com/hashicorp/go-plugin
   version: 8cf118f7a2f0c7ef1c82f66d4f6ac77c7e27dc12
 - name: github.com/hashicorp/yamux
   version: d1caa6c97c9fc1cc9e83bbe34d0603f9ff0ce8bd
+- name: github.com/imdario/mergo
+  version: 50d4dbd4eb0e84778abe37cefef140271d96fade
 - name: github.com/kr/fs
   version: 2788f0dbd16903de03cb8186e5c7d97b69ad387b
 - name: github.com/onsi/ginkgo
-  version: 46c87bb63f2d8d62b3076873b7a84da124da72ce
+  version: a8ccd817611666211fdf6e6a752174a0db8374a8
   subpackages:
   - config
   - internal/codelocation
@@ -55,9 +50,11 @@ imports:
   - internal/writer
   - reporters
   - reporters/stenographer
+  - reporters/stenographer/support/go-colorable
+  - reporters/stenographer/support/go-isatty
   - types
 - name: github.com/onsi/gomega
-  version: d59fa0ac68bb5dd932ee8d24eed631cdd519efc3
+  version: e46a88d81f5164c47e2d51c1c3d863dde7997993
   subpackages:
   - format
   - ghttp
@@ -80,9 +77,9 @@ imports:
   subpackages:
   - osutils
 - name: github.com/pkg/errors
-  version: a887431f7f6ef7687b556dbf718d9f351d4858a0
+  version: 839d9e913e063e28dfd0e6c7b7512793e0a48be9
 - name: github.com/pkg/sftp
-  version: 8197a2e580736b78d704be0fc47b2324c0591a32
+  version: 4d0e916071f68db74f8a73926335f809396d6b42
 - name: github.com/square/certstrap
   version: b6aef507a0840bf78bac99e7ffa6e6eb5c2c3c9f
   subpackages:
@@ -92,29 +89,17 @@ imports:
   subpackages:
   - lofakes
 - name: golang.org/x/net
-  version: f09c4662a0bd6bd8943ac7b4931e185df9471da4
+  version: e7b14352cc2ad797a09634fc0f1dd12942fa86de
   subpackages:
   - context
 - name: golang.org/x/oauth2
-  version: 3c3a985cb79f52a3190fbc056984415ca6763d01
-  subpackages:
-  - internal
-- name: google.golang.org/appengine
-  version: 45688856612892bdabe348fff413e5075ac72f46
-  subpackages:
-  - internal
-  - internal/base
-  - internal/datastore
-  - internal/log
-  - internal/remote_api
-  - internal/urlfetch
-  - urlfetch
+  version: 1e695b1c8febf17aad3bfa7bf0a819ef94b98ad5
 - name: gopkg.in/urfave/cli.v2
   version: c72728f42438425ffcd487986936357e17ebba3f
 - name: gopkg.in/yaml.v2
-  version: 31c299268d302dd0aa9a0dcf765a3d58971ac83f
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 testImports:
 - name: golang.org/x/sys
-  version: 8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9
+  version: c200b10b5d5e122be351b67af224adc6128af5bf
   subpackages:
   - unix

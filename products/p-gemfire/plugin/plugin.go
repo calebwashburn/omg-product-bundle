@@ -57,7 +57,9 @@ func (p *Plugin) GetProduct(args []string, cloudConfig []byte) ([]byte, error) {
 	serverInstanceCount := c.Int("server-instance-count")
 	serverStaticIPs := c.StringSlice("server-static-ip")
 	servervmmemory := c.Int("gemfire-server-vm-memory")
-	server := NewServerGroup(networkname, serverport, serverInstanceCount, serverStaticIPs, servervmtype, servervmmemory, locator)
+	serverdevrestport := c.Int("gemfire-dev-rest-api-port")
+	serverdevrestactive := c.Bool("gemfire-dev-rest-api-active")
+	server := NewServerGroup(networkname, serverport, serverInstanceCount, serverStaticIPs, servervmtype, servervmmemory, serverdevrestport, serverdevrestactive, locator)
 	serverInstanceGroup := server.GetInstanceGroup()
 	serverInstanceGroup.Stemcell = c.String("stemcell-alias")
 	serverInstanceGroup.AZs = azs
@@ -99,6 +101,17 @@ func validate(flagName string, c *cli.Context) error {
 func (p *Plugin) GetMeta() product.Meta {
 	return product.Meta{
 		Name: "p-gemfire",
+		Stemcell: enaml.Stemcell{
+			Name:    defaultStemcellName,
+			Alias:   defaultStemcellAlias,
+			Version: defaultStemcellVersion,
+		},
+		Releases: []enaml.Release{
+			enaml.Release{
+				Name:    releaseName,
+				Version: releaseVersion,
+			},
+		},
 		Properties: map[string]interface{}{
 			"version":              p.Version,
 			"stemcell":             defaultStemcellVersion,
@@ -158,6 +171,18 @@ func (p *Plugin) GetFlags() []pcli.Flag {
 		},
 		pcli.Flag{
 			FlagType: pcli.IntFlag,
+			Name:     "gemfire-dev-rest-api-port",
+			Value:    defaultDevRestPort,
+			Usage:    "this will set the port the dev rest api listens on, if active",
+		},
+		pcli.Flag{
+			FlagType: pcli.BoolFlag,
+			Name:     "gemfire-dev-rest-api-active",
+			Value:    defaultDevRestActive,
+			Usage:    "set to true to activate the dev rest api on server nodes",
+		},
+		pcli.Flag{
+			FlagType: pcli.IntFlag,
 			Name:     "gemfire-locator-vm-memory",
 			Value:    defaultLocatorVMMemory,
 			Usage:    "the amount of memory allocated by the locator process",
@@ -187,19 +212,19 @@ func (p *Plugin) GetFlags() []pcli.Flag {
 		pcli.Flag{
 			FlagType: pcli.StringFlag,
 			Name:     "stemcell-name",
-			Value:    defaultStemcellName,
+			Value:    p.GetMeta().Stemcell.Name,
 			Usage:    "the name of the stemcell you with to use",
 		},
 		pcli.Flag{
 			FlagType: pcli.StringFlag,
 			Name:     "stemcell-alias",
-			Value:    defaultStemcellAlias,
+			Value:    p.GetMeta().Stemcell.Alias,
 			Usage:    "the name of the stemcell you with to use",
 		},
 		pcli.Flag{
 			FlagType: pcli.StringFlag,
 			Name:     "stemcell-ver",
-			Value:    defaultStemcellVersion,
+			Value:    p.GetMeta().Stemcell.Version,
 			Usage:    "the name of the stemcell you with to use",
 		},
 		pcli.Flag{

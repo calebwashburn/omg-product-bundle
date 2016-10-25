@@ -36,7 +36,7 @@ import:
 - package: github.com/onsi/gomega
 - package: github.com/hashicorp/yamux
 - package: github.com/enaml-ops/pluginlib
-  version: v0.1.3
+  version: v0.1.*
 - package: github.com/golang/protobuf
   subpackages:
   - proto
@@ -46,3 +46,4 @@ import:
   - context
 - package: github.com/square/certstrap
 - package: github.com/op/go-logging
+- package: github.com/imdario/mergo
