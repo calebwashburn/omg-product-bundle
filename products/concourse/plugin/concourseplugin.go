@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"strings"
 
+	"gopkg.in/urfave/cli.v2"
+
 	"github.com/enaml-ops/enaml"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse"
 	"github.com/enaml-ops/pluginlib/pcli"
 	"github.com/enaml-ops/pluginlib/pluginutil"
 	"github.com/enaml-ops/pluginlib/product"
 	"github.com/xchapter7x/lo"
-	"gopkg.in/urfave/cli.v2"
 )
 
 type ConcoursePlugin struct {
@@ -21,37 +22,51 @@ const (
 	defaultConcourseReleaseURL string = "https://bosh.io/d/github.com/concourse/concourse?v=2.2.1"
 	defaultConcourseReleaseSHA string = "879d5cb45d12f173ff4c7912c7c7cdcd3e18c442"
 	defaultConcourseReleaseVer string = "2.2.1"
+	defaultCntlmReleaseURL     string = "https://github.com/calebwashburn/cntlm-boshrelease/releases/download/v1/cntlm-1.tgz"
+	defaultCntlmReleaseSHA     string = "2528a7c4034442ba1e9b223bc767d432fb900850"
+	defaultCntlmReleaseVer     string = "1"
 	defaultGardenReleaseURL    string = "https://bosh.io/d/github.com/cloudfoundry-incubator/garden-runc-release?v=0.8.0"
 	defaultGardenReleaseSHA    string = "20e98ea84c8f4426bba00bbca17d931e27d3c07d"
 	defaultGardenReleaseVer    string = "0.8.0"
 
-	concoursePassword      string = "concourse-password"
-	concourseUsername      string = "concourse-username"
-	externalURL            string = "external-url"
-	webIPs                 string = "web-ip"
-	networkName            string = "network-name"
-	az                     string = "az"
-	deploymentName         string = "deployment-name"
-	webVMType              string = "web-vm-type"
-	databaseVMType         string = "database-vm-type"
-	workerVMType           string = "worker-vm-type"
-	workerInstances        string = "worker-instance-count"
-	databaseStorageType    string = "database-storage-type"
-	postgresqlDbPwd        string = "concourse-db-pwd"
-	concourseReleaseURL    string = "concourse-release-url"
-	concourseReleaseSHA    string = "concourse-release-sha"
-	concourseReleaseVer    string = "concourse-release-ver"
-	gardenReleaseURL       string = "garden-release-url"
-	gardenReleaseSHA       string = "garden-release-sha"
-	gardenReleaseVer       string = "garden-release-ver"
-	stemcellAlias          string = "stemcell-alias"
-	stemcellOS             string = "stemcell-os"
-	stemcellVersion        string = "stemcell-version"
-	tlsCert                string = "tls-cert"
-	tlsKey                 string = "tls-key"
-	defaultStemcellAlias          = "trusty"
-	defaultStemcellName           = "ubuntu-trusty"
-	defaultStemcellVersion        = "latest"
+	concoursePassword   string = "concourse-password"
+	concourseUsername   string = "concourse-username"
+	externalURL         string = "external-url"
+	webIPs              string = "web-ip"
+	networkName         string = "network-name"
+	az                  string = "az"
+	deploymentName      string = "deployment-name"
+	webVMType           string = "web-vm-type"
+	databaseVMType      string = "database-vm-type"
+	workerVMType        string = "worker-vm-type"
+	workerInstances     string = "worker-instance-count"
+	databaseStorageType string = "database-storage-type"
+	postgresqlDbPwd     string = "concourse-db-pwd"
+	concourseReleaseURL string = "concourse-release-url"
+	concourseReleaseSHA string = "concourse-release-sha"
+	concourseReleaseVer string = "concourse-release-ver"
+	cntlmReleaseURL     string = "cntlm-release-url"
+	cntlmReleaseSHA     string = "cntlm-release-sha"
+	cntlmReleaseVer     string = "cntlm-release-ver"
+	gardenReleaseURL    string = "garden-release-url"
+	gardenReleaseSHA    string = "garden-release-sha"
+	gardenReleaseVer    string = "garden-release-ver"
+	stemcellAlias       string = "stemcell-alias"
+	stemcellOS          string = "stemcell-os"
+	stemcellVersion     string = "stemcell-version"
+	tlsCert             string = "tls-cert"
+	tlsKey              string = "tls-key"
+	useNTLMProxy        string = "use-ntlm-proxy"
+	ntlmProxyUser       string = "ntlm-proxy-user"
+	ntlmProxyPassword   string = "ntlm-proxy-password"
+	ntlmProxyDomain     string = "ntlm-proxy-domain"
+	ntlmProxyServer     string = "ntlm-proxy-server"
+	httpsProxyServer    string = "https-proxy-server"
+	httpProxyServer     string = "http-proxy-server"
+
+	defaultStemcellAlias   = "trusty"
+	defaultStemcellName    = "ubuntu-trusty"
+	defaultStemcellVersion = "latest"
 )
 
 func (s *ConcoursePlugin) GetFlags() (flags []pcli.Flag) {
@@ -74,6 +89,10 @@ func (s *ConcoursePlugin) GetFlags() (flags []pcli.Flag) {
 		pcli.Flag{FlagType: pcli.StringFlag, Name: concourseReleaseSHA, Value: defaultConcourseReleaseSHA, Usage: "release sha for concourse bosh release"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: concourseReleaseVer, Value: defaultConcourseReleaseVer, Usage: "release version for concourse bosh release"},
 
+		pcli.Flag{FlagType: pcli.StringFlag, Name: cntlmReleaseURL, Value: defaultCntlmReleaseURL, Usage: "release url for cntlm bosh release"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: cntlmReleaseSHA, Value: defaultCntlmReleaseSHA, Usage: "release sha for cntlm bosh release"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: cntlmReleaseVer, Value: defaultCntlmReleaseVer, Usage: "release version for cntlm bosh release"},
+
 		pcli.Flag{FlagType: pcli.StringFlag, Name: gardenReleaseURL, Value: defaultGardenReleaseURL, Usage: "release url for garden bosh release"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: gardenReleaseSHA, Value: defaultGardenReleaseSHA, Usage: "release sha for garden bosh release"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: gardenReleaseVer, Value: defaultGardenReleaseVer, Usage: "release version for garden bosh release"},
@@ -81,6 +100,15 @@ func (s *ConcoursePlugin) GetFlags() (flags []pcli.Flag) {
 		pcli.Flag{FlagType: pcli.StringFlag, Name: stemcellAlias, Value: "trusty", Usage: "alias of stemcell"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: stemcellOS, Value: "ubuntu-trusty", Usage: "os of stemcell"},
 		pcli.Flag{FlagType: pcli.StringFlag, Name: stemcellVersion, Value: "latest", Usage: "version of stemcell"},
+
+		pcli.Flag{FlagType: pcli.BoolFlag, Name: useNTLMProxy, Usage: "whether or not to use ntlm proxy"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: ntlmProxyUser, Usage: "proxy user for ntlm proxy"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: ntlmProxyPassword, Usage: "proxy password for ntlm proxy"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: ntlmProxyDomain, Usage: "proxy domain for ntlm proxy"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: ntlmProxyServer, Usage: "proxy server for ntlm proxy, ie 10.0.0.0:8080"},
+
+		pcli.Flag{FlagType: pcli.StringFlag, Name: httpsProxyServer, Usage: "https proxy server"},
+		pcli.Flag{FlagType: pcli.StringFlag, Name: httpProxyServer, Usage: "http proxy server"},
 	}
 	return
 }
@@ -102,6 +130,12 @@ func (s *ConcoursePlugin) GetMeta() product.Meta {
 			},
 			enaml.Release{
 				Name:    "concourse",
+				Version: defaultConcourseReleaseVer,
+				URL:     defaultConcourseReleaseURL,
+				SHA1:    defaultConcourseReleaseSHA,
+			},
+			enaml.Release{
+				Name:    "cntlm",
 				Version: defaultConcourseReleaseVer,
 				URL:     defaultConcourseReleaseURL,
 				SHA1:    defaultConcourseReleaseSHA,
@@ -156,12 +190,25 @@ func NewDeploymentManifest(c *cli.Context, cloudConfig []byte) (enaml.Deployment
 	deployment.ConcourseReleaseURL = c.String(concourseReleaseURL)
 	deployment.ConcourseReleaseSHA = c.String(concourseReleaseSHA)
 	deployment.ConcourseReleaseVer = c.String(concourseReleaseVer)
+	deployment.CntlmReleaseURL = c.String(cntlmReleaseURL)
+	deployment.CntlmReleaseSHA = c.String(cntlmReleaseSHA)
+	deployment.CntlmReleaseVer = c.String(cntlmReleaseVer)
 	deployment.StemcellAlias = c.String(stemcellAlias)
 	deployment.StemcellOS = c.String(stemcellOS)
 	deployment.StemcellVersion = c.String(stemcellVersion)
 	deployment.GardenReleaseURL = c.String(gardenReleaseURL)
 	deployment.GardenReleaseSHA = c.String(gardenReleaseSHA)
 	deployment.GardenReleaseVer = c.String(gardenReleaseVer)
+	if c.Bool(useNTLMProxy) {
+		deployment.UseNTLMProxy = true
+		deployment.NTLMProxyUser = c.String(ntlmProxyUser)
+		deployment.NTLMProxyPassword = c.String(ntlmProxyPassword)
+		deployment.NTLMProxyDomain = c.String(ntlmProxyDomain)
+		deployment.NTLMProxyServer = c.String(ntlmProxyServer)
+	} else {
+		deployment.HTTPSProxy = c.String(httpsProxyServer)
+		deployment.HTTPProxy = c.String(httpProxyServer)
+	}
 
 	var err error
 
