@@ -113,12 +113,6 @@ func (s *ConcoursePlugin) GetMeta() product.Meta {
 				URL:     defaultConcourseReleaseURL,
 				SHA1:    defaultConcourseReleaseSHA,
 			},
-			enaml.Release{
-				Name:    "cntlm",
-				Version: defaultConcourseReleaseVer,
-				URL:     defaultConcourseReleaseURL,
-				SHA1:    defaultConcourseReleaseSHA,
-			},
 		},
 		Properties: map[string]interface{}{
 			"version":           s.PluginVersion,
