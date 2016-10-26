@@ -8,7 +8,6 @@ import (
 	"github.com/enaml-ops/enaml"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/atc"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/baggageclaim"
-	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/cntlm"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/garden"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/groundcrew"
 	"github.com/enaml-ops/omg-product-bundle/products/concourse/enaml-gen/postgresql"
@@ -41,9 +40,6 @@ type Deployment struct {
 	ConcourseReleaseVer string
 	ConcourseReleaseURL string
 	ConcourseReleaseSHA string
-	CntlmReleaseVer     string
-	CntlmReleaseURL     string
-	CntlmReleaseSHA     string
 	StemcellVersion     string
 	StemcellAlias       string
 	StemcellOS          string
@@ -52,11 +48,6 @@ type Deployment struct {
 	GardenReleaseSHA    string
 	TLSCert             string
 	TLSKey              string
-	UseNTLMProxy        bool
-	NTLMProxyUser       string
-	NTLMProxyPassword   string
-	NTLMProxyDomain     string
-	NTLMProxyServer     string
 	HTTPSProxy          string
 	HTTPProxy           string
 }
@@ -125,14 +116,6 @@ func (d *Deployment) Initialize(cloudConfig []byte) error {
 		Version: d.GardenReleaseVer,
 	})
 
-	if d.UseNTLMProxy {
-		d.manifest.AddRelease(enaml.Release{
-			Name:    "cntlm",
-			URL:     d.CntlmReleaseURL,
-			SHA1:    d.CntlmReleaseSHA,
-			Version: d.CntlmReleaseVer,
-		})
-	}
 	d.manifest.AddStemcell(enaml.Stemcell{
 		Alias:   d.StemcellAlias,
 		OS:      d.StemcellOS,
@@ -249,23 +232,6 @@ func (d *Deployment) CreateWorkerInstanceGroup() (worker *enaml.InstanceGroup, e
 	worker.AddJob(d.CreateGroundCrewJob())
 	worker.AddJob(d.CreateBaggageClaimJob())
 	worker.AddJob(d.CreateGardenJob())
-
-	if d.UseNTLMProxy {
-		worker.AddJob(d.CreateCNTLMJob())
-	}
-
-	return
-}
-
-func (d *Deployment) CreateCNTLMJob() (job *enaml.InstanceJob) {
-	job = enaml.NewInstanceJob("cntlm", "cntlm", cntlm.CntlmJob{
-		Cntlm: &cntlm.Cntlm{
-			Username: d.NTLMProxyUser,
-			Password: d.NTLMProxyPassword,
-			Domain:   d.NTLMProxyDomain,
-			Proxy:    d.NTLMProxyServer,
-		},
-	})
 	return
 }
 
@@ -290,13 +256,8 @@ func (d *Deployment) CreateBaggageClaimJob() (job *enaml.InstanceJob) {
 //CreateGroundCrewJob -
 func (d *Deployment) CreateGroundCrewJob() (job *enaml.InstanceJob) {
 	groundCrewJob := groundcrew.GroundcrewJob{}
-	if d.UseNTLMProxy {
-		groundCrewJob.HttpProxyUrl = "http://127.0.0.1:3128"
-		groundCrewJob.HttpsProxyUrl = "http://127.0.0.1:3128"
-	} else {
-		groundCrewJob.HttpProxyUrl = d.HTTPProxy
-		groundCrewJob.HttpsProxyUrl = d.HTTPSProxy
-	}
+	groundCrewJob.HttpProxyUrl = d.HTTPProxy
+	groundCrewJob.HttpsProxyUrl = d.HTTPSProxy
 	job = enaml.NewInstanceJob("groundcrew", concourseReleaseName, groundCrewJob)
 	return
 }
