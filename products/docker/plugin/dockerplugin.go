@@ -18,9 +18,9 @@ import (
 )
 
 const (
-	BoshDockerReleaseURL = "https://github.com/calebwashburn/docker-boshrelease/releases/tag/v28.0.1-dev-14"
-	BoshDockerReleaseVer = "28.0.1-dev-14"
-	BoshDockerReleaseSHA = "debaf48c7e7b8fbb4ac385f5c41fc26dcbdd8018"
+	BoshDockerReleaseURL = "https://github.com/calebwashburn/docker-boshrelease/releases/download/v28.0.1-dev-15/docker-28.0.1.dev.15.tgz"
+	BoshDockerReleaseVer = "28.0.1-dev-15"
+	BoshDockerReleaseSHA = "715908428d9ba39420d54719e0ae6da5debaaa74"
 	defaultReleaseName   = "docker"
 	defaultStemcellName  = "trusty"
 )
